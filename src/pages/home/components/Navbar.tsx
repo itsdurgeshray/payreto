@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 md:px-6 pt-4 md:pt-6">
       {/* Glass in both themes: translucent tint, heavy blur + saturation,
           a frosted sheen and a bright top hairline. */}
-      <nav className={`relative mx-auto w-full max-w-6xl flex items-center justify-between gap-4 rounded-full border px-3 md:px-4 py-2.5 overflow-hidden backdrop-blur-2xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-500 ${
+      <nav className={`relative mx-auto w-full max-w-3xl flex items-center justify-between gap-4 rounded-full border px-3 md:px-4 py-2.5 overflow-hidden backdrop-blur-2xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-500 ${
           light
             ? "border-white/70 bg-white/40 shadow-[0_10px_34px_-14px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.8)]"
             : "border-white/15 bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
@@ -78,7 +78,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className={`md:hidden mx-auto w-full max-w-6xl mt-2 rounded-2xl border p-3 backdrop-blur-2xl backdrop-saturate-150 ${
+        <div className={`md:hidden mx-auto w-full max-w-3xl mt-2 rounded-2xl border p-3 backdrop-blur-2xl backdrop-saturate-150 ${
           light ? "border-white/70 bg-white/55" : "border-white/15 bg-neutral-950/55"
         }`}>
           <div className="flex flex-col">
