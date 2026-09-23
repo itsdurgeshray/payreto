@@ -1,9 +1,10 @@
 // Shape of the hero tile mosaic, shared by the mosaic and the hero layout.
-// Column tile-counts, left → right: 5 5 3 3 1 1 1 1 1 1 3 3 5 5  → 38 tiles,
-// one per expertise item. 14 columns keeps the tiles square while making the
-// band a touch lighter than a 13-column grid would.
-export const COL_TILES = [5, 5, 3, 3, 1, 1, 1, 1, 1, 1, 3, 3, 5, 5];
-export const COLS = COL_TILES.length; // 14
+// Column tile-counts, left → right: 5 5 3 3 1 1 1 1 1 1 1 3 3 5 5  → 39
+// tiles. 15 square columns keep the band edge to edge while the tiles stay
+// modest next to the hero copy. Tiles take the expertise items in order (the
+// last one repeats the first item).
+export const COL_TILES = [5, 5, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 5, 5];
+export const COLS = COL_TILES.length; // 15
 export const MAX_ROWS = Math.max(...COL_TILES);
 export const GAP = 6;
 // The single-tile columns that form the hollow "valley" in the middle.

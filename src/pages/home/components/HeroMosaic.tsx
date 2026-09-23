@@ -14,13 +14,13 @@ import { COLS, COL_TILES, GAP, MAX_ROWS, TAB_RADIUS, mosaicMetrics } from "./mos
 
 // Full-bleed, bottom-anchored mosaic of perfectly square tiles.
 //
-// Column tile-counts (see mosaicGeometry): 5 5 3 3 1 1 1 1 1 1 3 3 5 5 → 38.
-// The columns ALWAYS span the entire viewport width — the square tile size
+// Column tile-counts (see mosaicGeometry): 5 5 3 3 1 1 1 1 1 1 1 3 3 5 5.
+// The columns ALWAYS span the entire viewport width, the square tile size
 // is derived from the available width, so the band scales with the screen and
 // never leaves side gaps. Every column rests on the same baseline, giving the
 // symmetric rising-valley silhouette.
 //
-// Hover: the reveal is a RADIAL gradient centred exactly under the cursor —
+// Hover: the reveal is a RADIAL gradient centred exactly under the cursor , 
 // brightest at the cursor and fading out toward the edges. Everything is
 // clipped inside the tile, so no colour or glow ever bleeds into the negative
 // space between tiles.
@@ -42,8 +42,8 @@ const BLUE = {
 // Timing is in transition progress (0–1 over the timed transition). The tiles
 // wait until the light wash (Hero) is half-way across the stage and finish
 // as it completes; two quick beats ripple out from the centre column:
-//  1. ignite — each tile lights up in its group colour, still in place;
-//  2. flight — it lifts off, glides to its tab and settles into the tab skin.
+//  1. ignite, each tile lights up in its group colour, still in place;
+//  2. flight, it lifts off, glides to its tab and settles into the tab skin.
 const IGNITE_START = 0.4; // wash half-way (Hero: smoothstep(0.02, 0.78))
 const IGNITE_SPREAD = 0.04;
 const IGNITE_DUR = 0.06;
@@ -84,7 +84,7 @@ export default function HeroMosaic() {
   const mouseRef = useRef<{ x: number; y: number } | null>(null);
   const cellRefs = useRef<Map<string, CellRefs>>(new Map());
   const activeRef = useRef<Set<string>>(new Set());
-  // Host width + stage (viewport) height — the latter locates the tab targets.
+  // Host width + stage (viewport) height, the latter locates the tab targets.
   const [size, setSize] = useState({ w: 0, h: 0 });
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function HeroMosaic() {
     []
   );
 
-  // Square tile size — derived from width only, so the band always fills the
+  // Square tile size, derived from width only, so the band always fills the
   // full width with no side margins.
   const { tile, gridH } = useMemo(() => mosaicMetrics(size.w), [size.w]);
 
@@ -160,7 +160,7 @@ export default function HeroMosaic() {
     return map;
   }, [tile, gridH]);
 
-  // Track the cursor relative to the host (writes to a ref — never renders).
+  // Track the cursor relative to the host (writes to a ref, never renders).
   useEffect(() => {
     const handle = (e: MouseEvent) => {
       const rect = hostRef.current?.getBoundingClientRect();
@@ -399,7 +399,7 @@ export default function HeroMosaic() {
     };
   }, [tile, gridH, size.h, active, revealRadius, cellConfig, geometry]);
 
-  // Tiles render once per size change — the loop then mutates DOM directly.
+  // Tiles render once per size change, the loop then mutates DOM directly.
   const tiles = useMemo(() => {
     if (tile <= 0) return null;
     cellRefs.current = new Map();
@@ -471,7 +471,7 @@ export default function HeroMosaic() {
               }}
             />
 
-            {/* Label — revealed only on hover */}
+            {/* Label, revealed only on hover */}
             <div
               ref={setCellRef(key, "label")}
               className="absolute inset-0 flex items-center justify-center"
@@ -495,7 +495,7 @@ export default function HeroMosaic() {
             </div>
           </div>
 
-          {/* Tab face — fades in as the group's leader tile lands. The same
+          {/* Tab face, fades in as the group's leader tile lands. The same
               component as the real tab, so the hand-off is seamless. */}
           {cfg.leader && (
             <div

@@ -4,7 +4,7 @@ import { GROUPS, ITEMS, type Group, type GroupKey, type Item } from "./solutions
 
 // Body of the expertise card, under the tabs. Left: the category's intro and
 // its products as a list of rows. Right: a showcase graphic for the selected
-// product — a floating UI card on the group's gradient.
+// product, a floating UI card on the group's gradient.
 
 const elementNumber = (item: Item) => ITEMS.indexOf(item) + 1;
 
@@ -186,7 +186,7 @@ export default function ExpertiseDetail() {
       aria-labelledby={`tab-${active}`}
       className="grid gap-6 lg:gap-10 p-4 md:p-6 lg:p-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-start text-left"
     >
-      {/* Left — category intro + products */}
+      {/* Left, category intro + products */}
       <div key={active} className="sol-in order-2 lg:order-none lg:pt-2">
         <h3 className="text-2xl md:text-[28px] font-semibold tracking-tight text-neutral-900">
           {group.name}
@@ -215,7 +215,7 @@ export default function ExpertiseDetail() {
         </div>
       </div>
 
-      {/* Right — showcase for the selected product (stays in view while a
+      {/* Right, showcase for the selected product (stays in view while a
           long list scrolls past on desktop) */}
       <div
         ref={visualRef}

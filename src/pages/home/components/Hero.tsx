@@ -49,7 +49,7 @@ function HeroCopy({ width, h1Size, hidden, onCta }: CopyProps) {
     >
       <h1
         data-roll-out
-        className={`font-serif font-normal leading-[1.06] tracking-tight text-white ${
+        className={`font-sans font-normal leading-[1.08] tracking-[-0.03em] text-white ${
           h1Size ? "" : "text-[2.5rem] md:text-[4rem]"
         }`}
         style={h1Size ? { fontSize: h1Size } : undefined}
@@ -404,17 +404,17 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-clip bg-neutral-950"
+      className={`relative w-full overflow-clip ${settled ? "bg-[#f6f5f1]" : "bg-neutral-950"}`}
       style={{ height: settled ? "auto" : size.h || "100vh" }}
     >
-      {/* Shader light rays fill the stage behind the copy — they start at the
-          very top, so they glow behind the transparent nav too — and recolour
+      {/* Shader light rays fill the stage behind the copy, they start at the
+          very top, so they glow behind the transparent nav too, and recolour
           to whichever tile group is hovered. */}
       <div ref={raysRef} className="absolute inset-0 pointer-events-none">
         <HeroShader />
       </div>
 
-      {/* Light wash — rises out of the mosaic and floods the stage. */}
+      {/* Light wash, rises out of the mosaic and floods the stage. */}
       <div
         ref={washRef}
         className="absolute inset-0 bg-[#f6f5f1] pointer-events-none"
@@ -445,11 +445,11 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Bottom mosaic — 38 square tiles, full-bleed, pinned to the bottom.
+      {/* Bottom mosaic: 39 square tiles, full-bleed, pinned to the bottom.
           On transition they fly up and become the expertise tabs. */}
       <HeroMosaic />
 
-      {/* Expertise header — in flow, so the stage collapses to it once the
+      {/* Expertise header, in flow, so the stage collapses to it once the
           transition settles. */}
       <div
         ref={headerRef}
@@ -471,7 +471,7 @@ export default function Hero() {
             style={{ opacity: 0 }}
           >
             Our Expertise Embedded in{" "}
-            <span className="italic text-[#2563eb]">Banking Operations</span>
+            <span className="text-[#2563eb]">Banking Operations</span>
           </h2>
           <p
             data-roll-in
@@ -483,17 +483,14 @@ export default function Hero() {
             by clicking each box.
           </p>
 
-          {/* The expertise card — tab strip and product detail as one
+          {/* The expertise card, tab strip and product detail as one
               component. It forms around the tiles as they land on the tabs. */}
           <div
             ref={tabsRef}
             className="mx-auto mt-9 md:mt-12 w-full max-w-6xl overflow-clip rounded-[28px] border border-neutral-900/[0.07] bg-white shadow-[0_30px_80px_-48px_rgba(0,0,0,0.35)]"
             style={{ opacity: 0, visibility: "hidden" }}
           >
-            <div
-              id="expertise-tabs"
-              className="border-b border-neutral-900/[0.06] bg-neutral-50/80 p-2 md:p-3"
-            >
+            <div id="expertise-tabs" className="p-3 md:p-4 pb-0 md:pb-0">
               <ExpertiseTabs />
             </div>
             <ExpertiseDetail />

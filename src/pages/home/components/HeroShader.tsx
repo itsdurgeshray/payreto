@@ -190,7 +190,7 @@ export default function HeroShader() {
         aria-hidden
         className="pointer-events-none absolute inset-0 w-full h-full"
         style={{
-          // Feather out well before the copy and mosaic — no hard cut-off.
+          // Feather out well before the copy and mosaic, no hard cut-off.
           maskImage: "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.55) 30%, transparent 70%)",
           WebkitMaskImage:
             "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.55) 30%, transparent 70%)",

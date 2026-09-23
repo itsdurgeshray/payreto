@@ -10,17 +10,23 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 md:px-6 pt-4 md:pt-6">
-      <nav className={`relative mx-auto w-full max-w-6xl flex items-center justify-between gap-4 rounded-full border px-3 md:px-4 py-2.5 overflow-hidden backdrop-blur-xl transition-colors duration-500 ${
+      {/* Glass in both themes: translucent tint, heavy blur + saturation,
+          a frosted sheen and a bright top hairline. */}
+      <nav className={`relative mx-auto w-full max-w-6xl flex items-center justify-between gap-4 rounded-full border px-3 md:px-4 py-2.5 overflow-hidden backdrop-blur-2xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] duration-500 ${
           light
-            ? "border-neutral-900/10 bg-white/70 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)]"
-            : "border-white/15 bg-white/[0.07]"
+            ? "border-white/70 bg-white/40 shadow-[0_10px_34px_-14px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.8)]"
+            : "border-white/15 bg-white/[0.07] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
         }`}>
         {/* Frosted glass gradient + top hairline highlight */}
-        <span className={`pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.14] via-white/[0.05] to-white/[0.02] transition-opacity duration-500 ${light ? "opacity-0" : ""}`} />
+        <span className={`pointer-events-none absolute inset-0 bg-gradient-to-b transition-opacity duration-500 ${
+          light
+            ? "from-white/50 via-white/10 to-white/0"
+            : "from-white/[0.14] via-white/[0.05] to-white/[0.02]"
+        }`} />
         <span className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
         <span className="pointer-events-none absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Logo — text wordmark */}
+        {/* Logo, text wordmark */}
         <a href="#" className="relative flex items-center pl-3 shrink-0 cursor-pointer">
           <span className={`text-[19px] font-bold tracking-tight transition-colors duration-500 ${light ? "text-neutral-900" : "text-white"}`}>
             Payreto
@@ -72,14 +78,20 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden mx-auto w-full max-w-6xl mt-2 rounded-2xl border border-white/15 bg-neutral-950/70 backdrop-blur-xl p-3">
+        <div className={`md:hidden mx-auto w-full max-w-6xl mt-2 rounded-2xl border p-3 backdrop-blur-2xl backdrop-saturate-150 ${
+          light ? "border-white/70 bg-white/55" : "border-white/15 bg-neutral-950/55"
+        }`}>
           <div className="flex flex-col">
             {navItems.map((item) => (
               <a
                 key={item}
                 href="#"
                 onClick={() => setOpen(false)}
-                className="px-4 py-3 text-sm text-neutral-200 hover:text-white rounded-xl hover:bg-white/10 transition-colors whitespace-nowrap cursor-pointer"
+                className={`px-4 py-3 text-sm rounded-xl transition-colors whitespace-nowrap cursor-pointer ${
+                  light
+                    ? "text-neutral-700 hover:text-neutral-900 hover:bg-neutral-900/5"
+                    : "text-neutral-200 hover:text-white hover:bg-white/10"
+                }`}
               >
                 {item}
               </a>
@@ -87,7 +99,11 @@ export default function Navbar() {
             <a
               href="#"
               onClick={() => setOpen(false)}
-              className="mt-1 mx-1 text-center bg-white text-neutral-900 text-sm font-semibold px-5 py-3 rounded-full whitespace-nowrap cursor-pointer hover:bg-neutral-100 transition-colors"
+              className={`mt-1 mx-1 text-center text-sm font-semibold px-5 py-3 rounded-full whitespace-nowrap cursor-pointer transition-colors ${
+                light
+                  ? "bg-neutral-900 text-white hover:bg-neutral-700"
+                  : "bg-white text-neutral-900 hover:bg-neutral-100"
+              }`}
             >
               Contact Us
             </a>
