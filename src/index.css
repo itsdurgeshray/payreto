@@ -49,12 +49,6 @@ body {
   }
 }
 
-/* Keep layout width stable when the page gains a scrollbar after the hero
-   transition, so the tab targets don't shift. */
-html {
-  scrollbar-gutter: stable;
-}
-
 .no-scrollbar {
   scrollbar-width: none;
 }

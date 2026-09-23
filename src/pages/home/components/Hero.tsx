@@ -272,7 +272,7 @@ export default function Hero() {
     };
   }, []);
 
-  const { tile, gap, gridH, floorH, valleyW } = mosaicMetrics(size.w);
+  const { tile, gap, gridH, floorH, valleyW, innerW, midH } = mosaicMetrics(size.w);
 
   const desktop = size.w >= DESKTOP_MIN_W;
   const wideW = Math.max(
@@ -294,16 +294,15 @@ export default function Hero() {
   if (desktop) {
     // Desktop: always the two-line headline. Each part of the copy may sink
     // into the mosaic only as far as the gap around it is wide enough:
-    //  · the headline, between the 5-tall edge columns (or above the band);
-    //  · the paragraph, into the valley if it fits, else above the 3-tall ones;
+    //  · the headline, between the tallest edge columns (or above the band);
+    //  · the paragraph, into the valley if it fits, else above the mid ones;
     //  · the button, down to the valley floor.
     // Within those limits it sits centred between the nav and the floor.
     useWide = true;
-    const span9 = 9 * (tile + gap) - gap;
-    const top3 = size.h - (3 * tile + 2 * gap);
+    const midTop = size.h - midH;
     const h1Limit =
-      (copyH.line2W + 2 * COPY_MARGIN <= span9 ? top3 : size.h - gridH) - COPY_MARGIN;
-    const pLimit = (copyH.pW + 2 * COPY_MARGIN <= valleyW ? valleyTop + COPY_MARGIN : top3) - COPY_MARGIN;
+      (copyH.line2W + 2 * COPY_MARGIN <= innerW ? midTop : size.h - gridH) - COPY_MARGIN;
+    const pLimit = (copyH.pW + 2 * COPY_MARGIN <= valleyW ? valleyTop + COPY_MARGIN : midTop) - COPY_MARGIN;
     const centred = NAV_CLEARANCE + (valleyTop - NAV_CLEARANCE - copyH.wide) / 2;
     copyTop = Math.min(
       centred,
@@ -405,17 +404,17 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-clip bg-neutral-950"
+      className={`relative w-full overflow-clip ${settled ? "bg-[#f6f5f1]" : "bg-neutral-950"}`}
       style={{ height: settled ? "auto" : size.h || "100vh" }}
     >
-      {/* Shader light rays fill the stage behind the copy — they start at the
-          very top, so they glow behind the transparent nav too — and recolour
+      {/* Shader light rays fill the stage behind the copy, they start at the
+          very top, so they glow behind the transparent nav too, and recolour
           to whichever tile group is hovered. */}
       <div ref={raysRef} className="absolute inset-0 pointer-events-none">
         <HeroShader />
       </div>
 
-      {/* Light wash — rises out of the mosaic and floods the stage. */}
+      {/* Light wash, rises out of the mosaic and floods the stage. */}
       <div
         ref={washRef}
         className="absolute inset-0 bg-[#f6f5f1] pointer-events-none"
@@ -446,11 +445,11 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Bottom mosaic — 37 square tiles, full-bleed, pinned to the bottom.
+      {/* Bottom mosaic: 39 square tiles, full-bleed, pinned to the bottom.
           On transition they fly up and become the expertise tabs. */}
       <HeroMosaic />
 
-      {/* Expertise header — in flow, so the stage collapses to it once the
+      {/* Expertise header, in flow, so the stage collapses to it once the
           transition settles. */}
       <div
         ref={headerRef}
@@ -472,7 +471,7 @@ export default function Hero() {
             style={{ opacity: 0 }}
           >
             Our Expertise Embedded in{" "}
-            <span className="italic text-[#2563eb]">Banking Operations</span>
+            <span className="text-[#2563eb]">Banking Operations</span>
           </h2>
           <p
             data-roll-in
@@ -484,17 +483,14 @@ export default function Hero() {
             by clicking each box.
           </p>
 
-          {/* The expertise card — tab strip and product detail as one
+          {/* The expertise card, tab strip and product detail as one
               component. It forms around the tiles as they land on the tabs. */}
           <div
             ref={tabsRef}
             className="mx-auto mt-9 md:mt-12 w-full max-w-6xl overflow-clip rounded-[28px] border border-neutral-900/[0.07] bg-white shadow-[0_30px_80px_-48px_rgba(0,0,0,0.35)]"
             style={{ opacity: 0, visibility: "hidden" }}
           >
-            <div
-              id="expertise-tabs"
-              className="border-b border-neutral-900/[0.06] bg-neutral-50/80 p-2 md:p-3"
-            >
+            <div id="expertise-tabs" className="p-3 md:p-4 pb-0 md:pb-0">
               <ExpertiseTabs />
             </div>
             <ExpertiseDetail />

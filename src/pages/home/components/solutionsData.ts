@@ -53,7 +53,7 @@ export type Group = {
   icon: LucideIcon;
   blurb: string;
   // RGB triplets: light (labels on dark), base (glow / tint), deep (accents),
-  // ink (text + active fill on the light theme — WCAG-safe with white).
+  // ink (text + active fill on the light theme, WCAG-safe with white).
   light: string;
   base: string;
   deep: string;
@@ -139,7 +139,7 @@ export type Item = {
 // Order matters: the mosaic assigns these to tiles column by column.
 export const ITEMS: Item[] = [
   { code: "TpL", group: "green", title: "Talent Pipeline", icon: Users, description: "Always-on sourcing that keeps vetted fintech and operations specialists ready before a role even opens." },
-  { code: "Tas", group: "green", title: "Talent Acquisition Services", icon: UserPlus, description: "End-to-end recruitment — from role scoping and screening to offer — for hard-to-fill regulated roles." },
+  { code: "Tas", group: "green", title: "Talent Acquisition Services", icon: UserPlus, description: "End-to-end recruitment, from role scoping and screening to offer, for hard-to-fill regulated roles." },
   { code: "TnG", group: "green", title: "Training & Growth", icon: GraduationCap, description: "Structured onboarding, certification and upskilling programmes that keep teams sharp as you scale." },
 
   { code: "IvD", group: "orange", title: "Identity Verification & Documentation", icon: ScanFace, description: "Document checks, liveness and biometric matching to confirm every customer is who they claim to be." },
