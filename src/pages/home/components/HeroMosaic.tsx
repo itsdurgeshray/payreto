@@ -14,8 +14,8 @@ import { COLS, COL_TILES, GAP, MAX_ROWS, TAB_RADIUS, mosaicMetrics } from "./mos
 
 // Full-bleed, bottom-anchored mosaic of perfectly square tiles.
 //
-// Column tile-counts, left → right: 5 5 3 3 1 1 1 1 1 3 3 5 5  → 37 tiles.
-// The 13 columns ALWAYS span the entire viewport width — the square tile size
+// Column tile-counts (see mosaicGeometry): 5 5 3 3 1 1 1 1 1 1 3 3 5 5 → 38.
+// The columns ALWAYS span the entire viewport width — the square tile size
 // is derived from the available width, so the band scales with the screen and
 // never leaves side gaps. Every column rests on the same baseline, giving the
 // symmetric rising-valley silhouette.

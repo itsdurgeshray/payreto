@@ -272,7 +272,7 @@ export default function Hero() {
     };
   }, []);
 
-  const { tile, gap, gridH, floorH, valleyW } = mosaicMetrics(size.w);
+  const { tile, gap, gridH, floorH, valleyW, innerW, midH } = mosaicMetrics(size.w);
 
   const desktop = size.w >= DESKTOP_MIN_W;
   const wideW = Math.max(
@@ -294,16 +294,15 @@ export default function Hero() {
   if (desktop) {
     // Desktop: always the two-line headline. Each part of the copy may sink
     // into the mosaic only as far as the gap around it is wide enough:
-    //  · the headline, between the 5-tall edge columns (or above the band);
-    //  · the paragraph, into the valley if it fits, else above the 3-tall ones;
+    //  · the headline, between the tallest edge columns (or above the band);
+    //  · the paragraph, into the valley if it fits, else above the mid ones;
     //  · the button, down to the valley floor.
     // Within those limits it sits centred between the nav and the floor.
     useWide = true;
-    const span9 = 9 * (tile + gap) - gap;
-    const top3 = size.h - (3 * tile + 2 * gap);
+    const midTop = size.h - midH;
     const h1Limit =
-      (copyH.line2W + 2 * COPY_MARGIN <= span9 ? top3 : size.h - gridH) - COPY_MARGIN;
-    const pLimit = (copyH.pW + 2 * COPY_MARGIN <= valleyW ? valleyTop + COPY_MARGIN : top3) - COPY_MARGIN;
+      (copyH.line2W + 2 * COPY_MARGIN <= innerW ? midTop : size.h - gridH) - COPY_MARGIN;
+    const pLimit = (copyH.pW + 2 * COPY_MARGIN <= valleyW ? valleyTop + COPY_MARGIN : midTop) - COPY_MARGIN;
     const centred = NAV_CLEARANCE + (valleyTop - NAV_CLEARANCE - copyH.wide) / 2;
     copyTop = Math.min(
       centred,
@@ -446,7 +445,7 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Bottom mosaic — 37 square tiles, full-bleed, pinned to the bottom.
+      {/* Bottom mosaic — 38 square tiles, full-bleed, pinned to the bottom.
           On transition they fly up and become the expertise tabs. */}
       <HeroMosaic />
 
