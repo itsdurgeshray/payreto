@@ -49,7 +49,7 @@ function HeroCopy({ width, h1Size, hidden, onCta }: CopyProps) {
     >
       <h1
         data-roll-out
-        className={`font-sans font-normal leading-[1.08] tracking-[-0.03em] text-white ${
+        className={`font-serif font-normal leading-[1.06] tracking-tight text-white ${
           h1Size ? "" : "text-[2.5rem] md:text-[4rem]"
         }`}
         style={h1Size ? { fontSize: h1Size } : undefined}
