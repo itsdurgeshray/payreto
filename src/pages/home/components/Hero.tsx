@@ -8,6 +8,8 @@ import {
 import HeroMosaic from "./HeroMosaic";
 import { mosaicMetrics } from "./mosaicGeometry";
 import HeroShader from "./HeroShader";
+import { heroGlow } from "./heroGlowState";
+import { GROUPS, GROUP_ORDER, type GroupKey } from "./solutionsData";
 import ExpertiseTabs from "./ExpertiseTabs";
 import ExpertiseDetail from "./ExpertiseDetail";
 import {
@@ -29,6 +31,60 @@ const COPY_MAX_W = 896;
 // Desktop: the headline is set as two fixed lines at 64px.
 const DESKTOP_MIN_W = 1024;
 const DESKTOP_COPY_MAX_W = 1100;
+
+// Second headline line at rest, and its colour.
+const DEFAULT_LINE = "Financial Services, Tech & Operations";
+const DEFAULT_LINE_RGB = "77,141,255";
+// Every phrase the second line can show; the layout reserves room for the
+// widest so a swap never pushes the headline into the tiles.
+const ALL_LINES = [DEFAULT_LINE, ...GROUP_ORDER.map((k) => GROUPS[k].heroLine)];
+// Hover must settle on a group this long before the line swaps, and rest this
+// long before it reverts, so sweeping across the tiles doesn't flicker it.
+const SWAP_HOLD_MS = 140;
+const REVERT_HOLD_MS = 450;
+
+// Second headline line. Live (on the visible copy only), it follows the tile
+// group under the cursor: its words and colour change with the rays.
+function HeroLine2({ live }: { live: boolean }) {
+  const [group, setGroup] = useState<GroupKey | null>(null);
+
+  useEffect(() => {
+    if (!live) return;
+    let raf = 0;
+    let candidate: GroupKey | null = null;
+    let since = 0;
+    let shown: GroupKey | null = null;
+    const tick = (now: number) => {
+      const g = heroGlow.group;
+      if (g !== candidate) {
+        candidate = g;
+        since = now;
+      }
+      const hold = candidate ? SWAP_HOLD_MS : REVERT_HOLD_MS;
+      if (candidate !== shown && now - since >= hold) {
+        shown = candidate;
+        setGroup(candidate);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [live]);
+
+  const text = group ? GROUPS[group].heroLine : DEFAULT_LINE;
+  const rgb = group ? GROUPS[group].base : DEFAULT_LINE_RGB;
+
+  return (
+    <span
+      className="block lg:whitespace-nowrap transition-colors duration-500"
+      style={{ color: `rgb(${rgb})` }}
+    >
+      <span data-line2 key={text} className={live ? "phrase-in inline-block" : undefined}>
+        {text}
+      </span>
+    </span>
+  );
+}
 
 type CopyProps = {
   width: number;
@@ -56,9 +112,20 @@ function HeroCopy({ width, h1Size, hidden, onCta }: CopyProps) {
       >
         {/* Two fixed lines on desktop; free wrapping on smaller screens. */}
         <span className="block lg:whitespace-nowrap">Trusted Turnkey Partner In</span>{" "}
-        <span className="block lg:whitespace-nowrap text-[#4d8dff]">
-          <span data-line2>Financial Services, Tech &amp; Operations</span>
-        </span>
+        <HeroLine2 live={!hidden} />
+        {/* Measuring copy only: every phrase, out of flow, to size the layout
+            for the widest one. */}
+        {hidden &&
+          ALL_LINES.map((line) => (
+            <span
+              key={line}
+              data-phrase
+              className="absolute left-0 top-0 whitespace-nowrap"
+              style={{ visibility: "hidden" }}
+            >
+              {line}
+            </span>
+          ))}
       </h1>
 
       <p
@@ -250,13 +317,13 @@ export default function Hero() {
       setSize({ w: section.clientWidth, h: window.innerHeight });
       const h1 = wide.querySelector("h1");
       const para = wide.querySelector("p");
-      const line2 = wide.querySelector<HTMLElement>("[data-line2]");
+      const phrases = [...wide.querySelectorAll<HTMLElement>("[data-phrase]")];
       setCopyH({
         wide: wide.offsetHeight,
         narrow: narrow.offsetHeight,
         h1H: h1?.offsetHeight ?? 0,
         pBottom: para ? para.offsetTop + para.offsetHeight : 0,
-        line2W: line2?.offsetWidth ?? 0,
+        line2W: Math.max(0, ...phrases.map((el) => el.offsetWidth)),
         pW: para?.offsetWidth ?? 0,
       });
     };

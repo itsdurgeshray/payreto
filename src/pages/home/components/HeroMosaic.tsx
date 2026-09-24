@@ -344,6 +344,7 @@ export default function HeroMosaic() {
       let wg = 0;
       let wb = 0;
       let wtot = 0;
+      const byGroup: Partial<Record<GroupKey, number>> = {};
 
       for (let k = 0; k < keys.length; k++) {
         const key = keys[k];
@@ -367,6 +368,7 @@ export default function HeroMosaic() {
           wg += n[1] * reveal;
           wb += n[2] * reveal;
           wtot += reveal;
+          byGroup[cfg.group] = (byGroup[cfg.group] ?? 0) + reveal;
         } else if (activeRef.current.has(key)) {
           resetCell(key);
         }
@@ -382,11 +384,18 @@ export default function HeroMosaic() {
         heroGlow.targetG = wg / wtot;
         heroGlow.targetB = wb / wtot;
         heroGlow.targetIntensity = Math.min(1, wtot / 2.2);
+        let best: GroupKey | null = null;
+        for (const k in byGroup) {
+          const key = k as GroupKey;
+          if (!best || byGroup[key]! > byGroup[best]!) best = key;
+        }
+        heroGlow.group = wtot > 0.3 ? best : null;
       } else {
         heroGlow.targetR = 96;
         heroGlow.targetG = 165;
         heroGlow.targetB = 250;
         heroGlow.targetIntensity = 0;
+        heroGlow.group = null;
       }
 
       raf = requestAnimationFrame(loop);

@@ -52,6 +52,9 @@ export type Group = {
   name: string;
   icon: LucideIcon;
   blurb: string;
+  // Second line of the hero headline while this group is hovered; it follows
+  // "Trusted Turnkey Partner In" and stays no wider than the default line.
+  heroLine: string;
   // RGB triplets: light (labels on dark), base (glow / tint), deep (accents),
   // ink (text + active fill on the light theme, WCAG-safe with white).
   light: string;
@@ -65,6 +68,7 @@ export const GROUP_ORDER: GroupKey[] = ["green", "orange", "blue", "pink", "cyan
 
 export const GROUPS: Record<GroupKey, Group> = {
   green: {
+    heroLine: "Talent Sourcing, Training & Growth",
     icon: Users,
     name: "Talent",
     blurb: "Specialist people, sourced, trained and ready to scale with you.",
@@ -75,6 +79,7 @@ export const GROUPS: Record<GroupKey, Group> = {
     n: [74, 222, 128],
   },
   orange: {
+    heroLine: "Customer Onboarding & Compliance",
     icon: UserCheck,
     name: "Onboarding",
     blurb: "Fast, compliant customer onboarding from first document to ongoing review.",
@@ -85,6 +90,7 @@ export const GROUPS: Record<GroupKey, Group> = {
     n: [251, 146, 60],
   },
   blue: {
+    heroLine: "Payment Processing & FX Operations",
     icon: CreditCard,
     name: "Payment",
     blurb: "Payment operations that keep money moving securely, in any currency.",
@@ -95,6 +101,7 @@ export const GROUPS: Record<GroupKey, Group> = {
     n: [96, 165, 250],
   },
   pink: {
+    heroLine: "Finance, Accounting & Reconciliation",
     icon: ChartPie,
     name: "Finance",
     blurb: "Accurate books, clean closes and reporting you can act on.",
@@ -105,6 +112,7 @@ export const GROUPS: Record<GroupKey, Group> = {
     n: [244, 114, 182],
   },
   cyan: {
+    heroLine: "Customer Contact & Support Teams",
     icon: Headset,
     name: "Contact",
     blurb: "Customer conversations handled with care across every channel.",
@@ -115,6 +123,7 @@ export const GROUPS: Record<GroupKey, Group> = {
     n: [34, 211, 238],
   },
   yellow: {
+    heroLine: "Data Insight, Controls & Automation",
     icon: Database,
     name: "Data",
     blurb: "Turning operational data into insight, controls and automation.",
